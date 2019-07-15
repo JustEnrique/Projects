@@ -1,0 +1,9 @@
+crates\command\CmdCrate.class
+crates\util\ItemBuilder.class
+crates\crate\Crate.class
+crates\crate\type\Rarity.class
+crates\crate\item\CrateItem.class
+crates\Main.class
+crates\util\Utils.class
+crates\manager\ItemManager.class
+crates\util\LocationSerializer.class
