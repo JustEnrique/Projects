@@ -1,6 +1,7 @@
 package crates;
 
 import crates.command.CmdCrate;
+import crates.crate.event.CrateListener;
 import crates.manager.ItemManager;
 import crates.manager.LocationManager;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -44,6 +45,7 @@ public class Main extends JavaPlugin {
         fileConfiguration = YamlConfiguration.loadConfiguration(itemYml);
         load();
         this.getCommand("crates").setExecutor(new CmdCrate());
+        this.getServer().getPluginManager().registerEvents(new CrateListener(), this);
     }
 
     public void onDisable() {

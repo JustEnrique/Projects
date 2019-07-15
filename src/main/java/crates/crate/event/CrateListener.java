@@ -1,13 +1,20 @@
 package crates.crate.event;
 
 import crates.Main;
+import crates.crate.type.Rarity;
+import net.minecraft.server.v1_12_R1.*;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.craftbukkit.v1_12_R1.CraftWorld;
+import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_12_R1.inventory.CraftItemStack;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.ItemStack;
 
 /**
  * Created by Enrique on 15-7-2019.
@@ -32,6 +39,18 @@ public class CrateListener implements Listener {
 
     @EventHandler
     public void onCrateOpen(CrateOpenEvent e) {
+        Player p = e.getPlayer();
+        Rarity rarity = e.getRarity();
+        Location loc = Main.getInstance().getLocationManager().getCrateLocations().get(rarity);
 
+        EntityItem item = new EntityItem(((CraftWorld) loc.getWorld()).getHandle());
+        item.setLocation(loc.getX(), loc.getY(), loc.getZ(), 0, 0);
+        item.setItemStack(CraftItemStack.asNMSCopy(new ItemStack(Material.LEATHER_HELMET, 1)));
+
+        PacketPlayOutSpawnEntity spawnItem = new PacketPlayOutSpawnEntity(item, 2, 100);
+        PacketPlayOutEntityMetadata data = new PacketPlayOutEntityMetadata(item.getId(), item.getDataWatcher(), true);
+
+        ((CraftPlayer) p).getHandle().playerConnection.sendPacket(spawnItem);
+        ((CraftPlayer) p).getHandle().playerConnection.sendPacket(data);
     }
 }

@@ -29,4 +29,8 @@ public class CrateOpenEvent extends Event {
     public Player getPlayer() {
         return player;
     }
+
+    public Rarity getRarity() {
+        return rarity;
+    }
 }
